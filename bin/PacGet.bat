@@ -5,5 +5,12 @@ fltmc >nul 2>&1 || start "" mshta VBScript:CreateObject("Shell.Application").She
 :: PacGet
 ::
 
+if defined KP_PACGET_DIR (
+    set "_pacget=%KP_PACGET_DIR%"
+) else (
+    set "_pacget=.."
+)
+set "_pg_ext=%_pacget%\ext"
+
 :: 
-ext\busybox.exe sh PacGet.sh
+"%_pg_ext%"\busybox.exe sh PacGet.sh
