@@ -55,12 +55,22 @@ GOTO:EOF
     "%_pg_ext%"\busybox.exe sh "%_pg_mod%"\EnvVarMod.sh "user" "tail" "Path" "%app_inst_path%"
     "%_pg_ext%"\busybox.exe sh "%_pg_mod%"\LnkAdd.sh "%app_inst_path%\7zFM.exe" "%desktop_dir%\%app_name%.lnk"
     "%_pg_ext%"\busybox.exe sh "%_pg_mod%"\FileAssocAdd.sh "7z zip rar 001" "%app_inst_path%\7zFM.exe"
+
+    call:Execute_Install_Conf
+GOTO:EOF
+
+:Execute_Install_Conf
 GOTO:EOF
 
 :Execute_Uninstall
     "%_pg_ext%"\busybox.exe sh "%_pg_mod%"\KillExe.sh "%app_inst_path%"
+    call:Execute_Uninstall_Conf
+
     "%_pg_ext%"\busybox.exe sh "%_pg_mod%"\AppUnin.sh "%app_inst_path%"
     "%_pg_ext%"\busybox.exe sh "%_pg_mod%"\EnvVarModDel.sh "user" "Path" "%app_inst_path%"
     "%_pg_ext%"\busybox.exe sh "%_pg_mod%"\LnkDel.sh "%desktop_dir%\%app_name%.lnk"
     "%_pg_ext%"\busybox.exe sh "%_pg_mod%"\FileAssocDel.sh "7z zip rar 001"
+GOTO:EOF
+
+:Execute_Uninstall_Conf
 GOTO:EOF

@@ -54,10 +54,13 @@ GOTO:EOF
     "%_pg_ext%"\busybox.exe sh "%_pg_mod%"\AppInst.sh "%app_name%" "%app_file_name%.7z"
     "%_pg_ext%"\busybox.exe sh "%_pg_mod%"\EnvVarMod.sh "user" "tail" "Path" "%app_inst_path%"
 
-    :: Extra configuration
+    call:Execute_Install_Conf
+GOTO:EOF
+
+:Execute_Install_Conf
+        rem Oh-My-Posh
     set "_pg_app_conf_dir_ohmyposh=%USERPROFILE%\Documents\WindowsPowerShell"
     set "_pg_app_conf_file_ohmyposh=%_pg_app_conf_dir_ohmyposh%\Microsoft.PowerShell_profile.ps1"
-        rem Oh-My-Posh
     cmd.exe /c md "%_pg_app_conf_dir_ohmyposh%"
     cmd.exe /c echo | set /p = "oh-my-posh.exe init pwsh | Invoke-Expression" > "%_pg_app_conf_file_ohmyposh%"
         rem PowerShell
@@ -65,15 +68,18 @@ GOTO:EOF
 GOTO:EOF
 
 :Execute_Uninstall
-    :: Extra anti-configuration
+    "%_pg_ext%"\busybox.exe sh "%_pg_mod%"\KillExe.sh "%app_inst_path%"
+    call:Execute_Uninstall_Conf
+
+    "%_pg_ext%"\busybox.exe sh "%_pg_mod%"\AppUnin.sh "%app_inst_path%"
+    "%_pg_ext%"\busybox.exe sh "%_pg_mod%"\EnvVarModDel.sh "user" "Path" "%app_inst_path%"
+GOTO:EOF
+
+:Execute_Uninstall_Conf
+        rem Oh-My-Posh
     set "_pg_app_conf_dir_ohmyposh=%USERPROFILE%\Documents\WindowsPowerShell"
     set "_pg_app_conf_file_ohmyposh=%_pg_app_conf_dir_ohmyposh%\Microsoft.PowerShell_profile.ps1"
-        rem Oh-My-Posh
     cmd.exe /c del /f /q "%_pg_app_conf_file_ohmyposh%"
         rem PowerShell
     powershell.exe "Set-ExecutionPolicy -ExecutionPolicy Undefined"
-
-    "%_pg_ext%"\busybox.exe sh "%_pg_mod%"\KillExe.sh "%app_inst_path%"
-    "%_pg_ext%"\busybox.exe sh "%_pg_mod%"\AppUnin.sh "%app_inst_path%"
-    "%_pg_ext%"\busybox.exe sh "%_pg_mod%"\EnvVarModDel.sh "user" "Path" "%app_inst_path%"
 GOTO:EOF

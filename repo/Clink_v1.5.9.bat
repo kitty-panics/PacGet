@@ -53,14 +53,20 @@ GOTO:EOF
 :Execute_Install
     "%_pg_ext%"\busybox.exe sh "%_pg_mod%"\AppInst.sh "%app_name%" "%app_file_name%.7z"
 
-    :: Extra configuration
+    call:Execute_Install_Conf
+GOTO:EOF
+
+:Execute_Install_Conf
     cmd.exe /c call "%app_inst_path%"\clink.bat autorun install
 GOTO:EOF
 
 :Execute_Uninstall
-    :: Extra anti-configuration
-    cmd.exe /c call "%app_inst_path%"\clink.bat autorun uninstall
-
     "%_pg_ext%"\busybox.exe sh "%_pg_mod%"\KillExe.sh "%app_inst_path%"
+    call:Execute_Uninstall_Conf
+
     "%_pg_ext%"\busybox.exe sh "%_pg_mod%"\AppUnin.sh "%app_inst_path%"
+GOTO:EOF
+
+:Execute_Uninstall_Conf
+    cmd.exe /c call "%app_inst_path%"\clink.bat autorun uninstall
 GOTO:EOF

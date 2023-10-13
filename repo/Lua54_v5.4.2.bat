@@ -54,7 +54,10 @@ GOTO:EOF
     "%_pg_ext%"\busybox.exe sh "%_pg_mod%"\AppInst.sh "%app_name%" "%app_file_name%.7z"
     "%_pg_ext%"\busybox.exe sh "%_pg_mod%"\EnvVarMod.sh "user" "tail" "Path" "%app_inst_path%"
 
-    :: Extra configuration
+    call:Execute_Install_Conf
+GOTO:EOF
+
+:Execute_Install_Conf
     cmd.exe /c copy "%app_inst_path%"\lua54.exe  "%app_inst_path%"\lua.exe
     cmd.exe /c copy "%app_inst_path%"\luac54.exe "%app_inst_path%"\luac.exe
     cmd.exe /c copy "%app_inst_path%"\wlua54.exe "%app_inst_path%"\wlua.exe
@@ -62,6 +65,11 @@ GOTO:EOF
 
 :Execute_Uninstall
     "%_pg_ext%"\busybox.exe sh "%_pg_mod%"\KillExe.sh "%app_inst_path%"
+    call:Execute_Uninstall_Conf
+
     "%_pg_ext%"\busybox.exe sh "%_pg_mod%"\AppUnin.sh "%app_inst_path%"
     "%_pg_ext%"\busybox.exe sh "%_pg_mod%"\EnvVarModDel.sh "user" "Path" "%app_inst_path%"
+GOTO:EOF
+
+:Execute_Uninstall_Conf
 GOTO:EOF
